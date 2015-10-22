@@ -4,13 +4,13 @@ using System.Collections;
 //Mike - script to be put on the baseball. Controls movement and scale
 public class scrBaseball : MonoBehaviour {
 
-    public float minScale = 0f;
-    public float maxScale = 1f;
+    float minScale = 0f;
+    float maxScale = 0f;
 
-    public float appearTimeMax = 2f;
+    float appearTimeMax = 0f;
 
-    public float maxHSpeed = 20f;
-    public float maxVSpeed = 10f;
+    float maxHSpeed = 0f;
+    float maxVSpeed = 0f;
 
     Rigidbody2D rb;
     
@@ -24,8 +24,16 @@ public class scrBaseball : MonoBehaviour {
         baseballController = transform.GetComponentInParent<scrBaseballController>();
         rb = GetComponent<Rigidbody2D>();
 
+        //grab the values from the parent
+        minScale = baseballController.minScale;
+        maxScale = baseballController.maxScale;
+        appearTimeMax = baseballController.appearTimeMax;
+        maxHSpeed = baseballController.maxHSpeed;
+        maxVSpeed = baseballController.maxVSpeed;
+
         //add a randomized force to the baseball to give a pitch variance
-        rb.AddForce(new Vector3(Random.Range(-maxHSpeed, maxHSpeed), Random.Range(-maxVSpeed, maxVSpeed)));
+        rb.AddForce(new Vector3(Random.Range(-maxHSpeed, maxHSpeed), 
+                                Random.Range(-maxVSpeed, maxVSpeed)));
 	}
 	
 	// Update is called once per frame
