@@ -15,10 +15,13 @@ public class scrBaseballController : MonoBehaviour {
 
     GameObject currentBaseball;
 
+    public int targetRotation = 0;
+    public int rotationInterval = 45;
+
     // Use this for initialization
     void Start () {
         //Create a baseball, and set its parent to us
-        CreateBaseball();
+        CreateTargetBaseball();
 	}
 	
 	// Update is called once per frame
@@ -26,9 +29,24 @@ public class scrBaseballController : MonoBehaviour {
 	
 	}
 
-    void CreateBaseball()
+    void CreateTargetBaseball()
     {
-        currentBaseball = (GameObject)Instantiate(Resources.Load("preBaseball"), startPos, Quaternion.identity);
+        currentBaseball = (GameObject)Instantiate(Resources.Load("preBaseball"), startPos, Quaternion.Euler(new Vector3(0, 0, targetRotation)));
         currentBaseball.transform.SetParent(transform);
+    }
+
+    void CreateNonTargetBaseball()
+    {
+        int rot = getRandomNonTargetRotation();
+        currentBaseball = (GameObject)Instantiate(Resources.Load("preBaseball"), startPos, Quaternion.Euler(new Vector3(0, 0, rot)));
+        currentBaseball.transform.SetParent(transform);
+    }
+
+    int getRandomNonTargetRotation()
+    {
+        int rot = ((int)(Random.Range(0, 360) / rotationInterval)) * rotationInterval;
+        if (rot == targetRotation)
+            rot = (rot + rotationInterval) % 360;
+        return rot;
     }
 }
