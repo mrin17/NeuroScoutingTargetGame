@@ -25,6 +25,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 448398}
   - 212: {fileID: 21251546}
+  - 114: {fileID: 11455134}
   m_Layer: 0
   m_Name: preBaseball
   m_TagString: Untagged
@@ -57,6 +58,18 @@ Transform:
   - {fileID: 405826}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11455134
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a4019a7c5919f140b1ef240b86943bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appearTimeMax: 2
 --- !u!212 &21233262
 SpriteRenderer:
   m_ObjectHideFlags: 1
