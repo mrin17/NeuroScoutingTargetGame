@@ -26,6 +26,7 @@ GameObject:
   - 4: {fileID: 448398}
   - 212: {fileID: 21251546}
   - 114: {fileID: 11455134}
+  - 50: {fileID: 5020480}
   m_Layer: 0
   m_Name: preBaseball
   m_TagString: Untagged
@@ -58,6 +59,22 @@ Transform:
   - {fileID: 405826}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!50 &5020480
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195746}
+  m_Mass: .00999999978
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!114 &11455134
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -69,7 +86,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a4019a7c5919f140b1ef240b86943bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minScale: .100000001
+  maxScale: 1
   appearTimeMax: 2
+  startPos: {x: 0, y: 0, z: 0}
+  maxHSpeed: 1
+  maxVSpeed: 1
 --- !u!212 &21233262
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -128,7 +150,23 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Mass
+      value: .00999999978
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 195746}
