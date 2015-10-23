@@ -10,6 +10,7 @@ public class scrBaseballController : MonoBehaviour {
 
     public float appearTimeMax = 2f;
     public float waitTimeMax = 1f;
+    float baseballThrowTimer = 0;
 
     public float maxHSpeed = 1.5f;
     public float maxVSpeed = 1f;
@@ -22,8 +23,13 @@ public class scrBaseballController : MonoBehaviour {
     public int numberOfBaseballs = 6;
     int thrownBaseballs = 0;
     int positionForTargetBall = 0;
+    bool pressedSpace = false;
 
-    float baseballThrowTimer = 0;
+    float maxScore = 0;
+    float score = 0;
+
+    public float correctPoints = 4;
+    public float incorrectPoints = -1;
 
     // Use this for initialization
     void Start () {
@@ -31,12 +37,37 @@ public class scrBaseballController : MonoBehaviour {
         positionForTargetBall = Random.Range(0, numberOfBaseballs + 1);
         //randomize target rotation
         targetRotation = ((int)(Random.Range(0, 360) / rotationInterval)) * rotationInterval;
+        //set up max score
+        maxScore = correctPoints;
+        baseballThrowTimer = appearTimeMax + waitTimeMax;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        //if you press space, we edit your score accordingly
+        //you can only press space once per baseball
+        if (Input.GetKeyDown(KeyCode.Space) && !pressedSpace)
+        { 
+            if (currentBaseball)
+            {
+                pressedSpace = true;
+                //if you hit the right baseball, you gain score. Otherwise, you lose score
+                //The faster you see the target (the lower baseballThrowTimer is), the more points you get
+                if (currentBaseball.transform.rotation.z == targetRotation)
+                {
+                    score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * correctPoints;
+                }
+                else
+                {
+                    score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * incorrectPoints;
+                }
+            }
+
+
+        }
+
         //use baseballThrowTimer as a timer. If it gets set to 0, then we throw another baseball   
-        if (baseballThrowTimer <= 0)
+        if (baseballThrowTimer >= appearTimeMax + waitTimeMax)
         {
             //until we hit 6 baseballs
             if (thrownBaseballs < numberOfBaseballs)
@@ -47,16 +78,17 @@ public class scrBaseballController : MonoBehaviour {
                 else
                     CreateNonTargetBaseball();
                 thrownBaseballs++;
+                pressedSpace = false;
             }
             else
             {
                 //end game
             }
-            baseballThrowTimer = appearTimeMax + waitTimeMax;
+            baseballThrowTimer = 0;
         }
         else
         {
-            baseballThrowTimer -= Time.deltaTime;
+            baseballThrowTimer += Time.deltaTime;
         }
 	}
 
@@ -84,4 +116,5 @@ public class scrBaseballController : MonoBehaviour {
             rot = (rot + rotationInterval) % 360;
         return rot;
     }
+
 }
