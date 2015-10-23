@@ -56,10 +56,12 @@ public class scrBaseballController : MonoBehaviour {
                 if (currentBaseball.transform.rotation.z == targetRotation)
                 {
                     score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * correctPoints;
+                    Instantiate(Resources.Load("preCheck"), currentBaseball.transform.position, Quaternion.identity);
                 }
                 else
                 {
                     score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * incorrectPoints;
+                    Instantiate(Resources.Load("preX"), currentBaseball.transform.position, Quaternion.identity);
                 }
             }
 
