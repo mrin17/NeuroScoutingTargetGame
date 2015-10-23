@@ -44,8 +44,12 @@ public class scrBaseball : MonoBehaviour {
 
         //only have the baseball appear for appearTiemMax seconds, then destroy the baseball
         appearTimer += Time.deltaTime;
-        if (appearTimer > appearTimeMax)
+        if (appearTimer > appearTimeMax) {
+            //if you do not hit the correct baseball, you lose score.
+            //if you do not hit the wrong baseball, you gain score.
+            baseballController.addDestroyScore();
             Destroy(gameObject);
+        }
 	}
 
 }

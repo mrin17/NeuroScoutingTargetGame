@@ -51,18 +51,9 @@ public class scrBaseballController : MonoBehaviour {
             if (currentBaseball)
             {
                 pressedSpace = true;
-                //if you hit the right baseball, you gain score. Otherwise, you lose score
-                //The faster you see the target (the lower baseballThrowTimer is), the more points you get
-                if (currentBaseball.transform.rotation.z == targetRotation)
-                {
-                    score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * correctPoints;
-                    Instantiate(Resources.Load("preCheck"), currentBaseball.transform.position, Quaternion.identity);
-                }
-                else
-                {
-                    score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * incorrectPoints;
-                    Instantiate(Resources.Load("preX"), currentBaseball.transform.position, Quaternion.identity);
-                }
+                //if you hit the right baseball, you gain score.
+                //if you hit the wrong baseball, you lose score.
+                scoreBaseball(1);
             }
 
 
@@ -117,6 +108,37 @@ public class scrBaseballController : MonoBehaviour {
         if (rot == targetRotation)
             rot = (rot + rotationInterval) % 360;
         return rot;
+    }
+
+    public void addDestroyScore()
+    {
+        if (!pressedSpace)
+            scoreBaseball(-1);
+    }
+
+    //The faster you see the target (the lower baseballThrowTimer is), the more points you get
+    //if you hit the right baseball, you gain score.
+    //if you hit the wrong baseball, you lose score.
+    //if you do not hit the correct baseball, you lose score.
+    //if you do not hit the wrong baseball, you gain score.
+    void scoreBaseball(int multiplier)
+    {
+        if (currentBaseball.transform.rotation.z == targetRotation)
+        {
+            score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * correctPoints * multiplier;
+            if (multiplier >= 0)
+                Instantiate(Resources.Load("preCheck"), currentBaseball.transform.position, Quaternion.identity);
+            else
+                Instantiate(Resources.Load("preX"), currentBaseball.transform.position, Quaternion.identity);
+        }
+        else
+        {
+            score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * incorrectPoints * multiplier;
+            if (multiplier <= 0)
+                Instantiate(Resources.Load("preCheck"), currentBaseball.transform.position, Quaternion.identity);
+            else
+                Instantiate(Resources.Load("preX"), currentBaseball.transform.position, Quaternion.identity);
+        }
     }
 
 }
