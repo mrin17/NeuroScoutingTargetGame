@@ -39,8 +39,14 @@ public class scrBaseballController : MonoBehaviour {
         targetRotation = ((int)(Random.Range(0, 360) / rotationInterval)) * rotationInterval;
         //set up max score
         maxScore = correctPoints;
-        baseballThrowTimer = appearTimeMax + waitTimeMax;
-	}
+        
+        //wait for initial display to be finished (same time as any other baseball)
+        baseballThrowTimer = 0;
+
+        //create the initial display
+        Instantiate(Resources.Load("preText"));
+        Instantiate(Resources.Load("preInitialBaseball"), Vector3.zero, Quaternion.Euler(new Vector3(0, 0, targetRotation)));
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -55,8 +61,6 @@ public class scrBaseballController : MonoBehaviour {
                 //if you hit the wrong baseball, you lose score.
                 scoreBaseball(1);
             }
-
-
         }
 
         //use baseballThrowTimer as a timer. If it gets set to 0, then we throw another baseball   
@@ -123,7 +127,7 @@ public class scrBaseballController : MonoBehaviour {
     //if you do not hit the wrong baseball, you gain score.
     void scoreBaseball(int multiplier)
     {
-        if (currentBaseball.transform.rotation.z == targetRotation)
+        if ((int) currentBaseball.transform.localRotation.eulerAngles.z == targetRotation)
         {
             score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * correctPoints * multiplier;
             if (multiplier >= 0)
@@ -135,7 +139,7 @@ public class scrBaseballController : MonoBehaviour {
         {
             score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * incorrectPoints * multiplier;
             if (multiplier <= 0)
-                Instantiate(Resources.Load("preCheck"), currentBaseball.transform.position, Quaternion.identity);
+                Instantiate(Resources.Load("preCheck"), currentBaseball.transform.position, Quaternion.identity);        
             else
                 Instantiate(Resources.Load("preX"), currentBaseball.transform.position, Quaternion.identity);
         }

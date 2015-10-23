@@ -42,13 +42,13 @@ public class scrBaseball : MonoBehaviour {
         float scaleRatio = (appearTimer / appearTimeMax * (maxScale - minScale)) + minScale;
         transform.localScale = new Vector3(scaleRatio, scaleRatio, 1);
 
-        //only have the baseball appear for appearTiemMax seconds, then destroy the baseball
+        //only have the baseball appear for appearTiemMax seconds, then disable the baseball
         appearTimer += Time.deltaTime;
         if (appearTimer > appearTimeMax) {
             //if you do not hit the correct baseball, you lose score.
             //if you do not hit the wrong baseball, you gain score.
             baseballController.addDestroyScore();
-            Destroy(gameObject);
+            this.gameObject.SetActive(false);
         }
 	}
 

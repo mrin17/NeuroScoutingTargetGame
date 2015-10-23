@@ -4,7 +4,7 @@ using System.Collections;
 public class scrCheckX : MonoBehaviour {
 
     public bool destroyOnTimer = true;
-    float timerMax = .5f;
+    protected float timerMax = .5f;
     float timer = 0;
 
 	// Use this for initialization
