@@ -98,7 +98,7 @@ public class scrBaseballController : MonoBehaviour {
                 if (sTrialNum.numTrials == trialsSoFar)
                 {
                     maxScore = (numCorrectBaseballs * correctPoints) + (numIncorrectBaseballs * incorrectPoints * -1);
-                    score = ((int) (score * 10)) / 10; //round score to one decimal place
+                    score = (int) score; //round your score to an int
                     Instantiate(Resources.Load("preScoreDisplay"));
                     //go through all the baseballs and re-enable them by displaying their data
                     foreach (Transform t in transform)
@@ -164,28 +164,31 @@ public class scrBaseballController : MonoBehaviour {
         bool correct = false;
         if ((int) currentBaseball.transform.localRotation.eulerAngles.z == targetRotation)
         {
-            score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * correctPoints * multiplier;
             if (multiplier >= 0)
             {
+                score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * correctPoints * multiplier;
                 Instantiate(Resources.Load("preCheck"), currentBaseball.transform.position, Quaternion.identity);
                 correct = true;
             }
             else
             {
+                score += correctPoints * multiplier;
                 Instantiate(Resources.Load("preX"), currentBaseball.transform.position, Quaternion.identity);
                 correct = false;
             }
         }
         else
         {
-            score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * incorrectPoints * multiplier;
+            
             if (multiplier <= 0)
             {
+                score += incorrectPoints * multiplier;
                 Instantiate(Resources.Load("preCheck"), currentBaseball.transform.position, Quaternion.identity);
                 correct = true;
             }
             else
             {
+                score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * incorrectPoints * multiplier;
                 Instantiate(Resources.Load("preX"), currentBaseball.transform.position, Quaternion.identity);
                 correct = false;
             }
