@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Displays the number of trials on the intro scene
 public class scrTrialNumDisplay : MonoBehaviour {
 
     scrTrialNum stn;

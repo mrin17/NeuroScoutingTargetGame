@@ -16,6 +16,10 @@ public class scrBaseball : MonoBehaviour {
     
     float appearTimer = 0f;
 
+    Vector3 savedPos = Vector3.zero;
+    Quaternion savedRot = Quaternion.identity;
+    bool correct = false;
+
     scrBaseballController baseballController;
 
 
@@ -51,5 +55,12 @@ public class scrBaseball : MonoBehaviour {
             this.gameObject.SetActive(false);
         }
 	}
+
+    public void saveTransform(bool c)
+    {
+        savedPos = transform.position;
+        savedRot = transform.rotation;
+        correct = c;
+    }
 
 }

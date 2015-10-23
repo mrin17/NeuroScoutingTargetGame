@@ -26,22 +26,32 @@ public class scrBaseballController : MonoBehaviour {
     bool pressedSpace = false;
 
     float maxScore = 0;
+    int numCorrectBaseballs = 0;
+    int numIncorrectBaseballs = 0;
     float score = 0;
 
-    public float correctPoints = 4;
+    public float correctPoints = 8;
     public float incorrectPoints = -1;
+
+    int trialsSoFar = 0;
+    scrTrialNum sTrialNum;
 
     // Use this for initialization
     void Start () {
+        sTrialNum = FindObjectOfType<scrTrialNum>();
+        RestartGame();
+    }
+
+    void RestartGame()
+    {
         //I'm adding one here so there's the chance the baseball won't appear
         positionForTargetBall = Random.Range(0, numberOfBaseballs + 1);
         //randomize target rotation
         targetRotation = ((int)(Random.Range(0, 360) / rotationInterval)) * rotationInterval;
-        //set up max score
-        maxScore = correctPoints;
-        
+
         //wait for initial display to be finished (same time as any other baseball)
         baseballThrowTimer = 0;
+        thrownBaseballs = 0;
 
         //create the initial display
         Instantiate(Resources.Load("preText"));
@@ -80,6 +90,17 @@ public class scrBaseballController : MonoBehaviour {
             else
             {
                 //end game
+                trialsSoFar++;
+                //if we did the required number of trials, end the game
+                if (sTrialNum.numTrials == trialsSoFar)
+                {
+                    maxScore = numCorrectBaseballs * correctPoints + numIncorrectBaseballs * incorrectPoints;
+                }
+                //otherwise, we go again
+                else
+                {
+                    RestartGame();
+                }
             }
             baseballThrowTimer = 0;
         }
@@ -94,6 +115,7 @@ public class scrBaseballController : MonoBehaviour {
     {
         currentBaseball = (GameObject)Instantiate(Resources.Load("preBaseball"), startPos, Quaternion.Euler(new Vector3(0, 0, targetRotation)));
         currentBaseball.transform.SetParent(transform);
+        numCorrectBaseballs++;
     }
 
     //creates a baseball with a different rotation than the target
@@ -127,22 +149,36 @@ public class scrBaseballController : MonoBehaviour {
     //if you do not hit the wrong baseball, you gain score.
     void scoreBaseball(int multiplier)
     {
+        bool correct = false;
         if ((int) currentBaseball.transform.localRotation.eulerAngles.z == targetRotation)
         {
             score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * correctPoints * multiplier;
             if (multiplier >= 0)
+            {
                 Instantiate(Resources.Load("preCheck"), currentBaseball.transform.position, Quaternion.identity);
+                correct = true;
+            }
             else
+            {
                 Instantiate(Resources.Load("preX"), currentBaseball.transform.position, Quaternion.identity);
+                correct = false;
+            }
         }
         else
         {
             score += (appearTimeMax - baseballThrowTimer) / appearTimeMax * incorrectPoints * multiplier;
             if (multiplier <= 0)
-                Instantiate(Resources.Load("preCheck"), currentBaseball.transform.position, Quaternion.identity);        
+            {
+                Instantiate(Resources.Load("preCheck"), currentBaseball.transform.position, Quaternion.identity);
+                correct = true;
+            }
             else
+            {
                 Instantiate(Resources.Load("preX"), currentBaseball.transform.position, Quaternion.identity);
+                correct = false;
+            }
         }
+        currentBaseball.GetComponent<scrBaseball>().saveTransform(correct);
     }
 
 }

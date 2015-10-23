@@ -14,6 +14,7 @@ public class scrTrialNum : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //press left and right to increment and decrement trials, space to continue
 	    if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (Application.loadedLevelName == "scnIntro")
@@ -32,7 +33,10 @@ public class scrTrialNum : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Application.LoadLevel("scnBaseballDiamond");
+            if (Application.loadedLevelName == "scnIntro")
+            {
+                Application.LoadLevel("scnBaseballDiamond");
+            }
         }
     }
 }
