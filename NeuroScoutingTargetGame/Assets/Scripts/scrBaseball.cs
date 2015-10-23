@@ -65,6 +65,7 @@ public class scrBaseball : MonoBehaviour {
         
 	}
 
+    //saves data so we can display it later
     public void saveTransform(bool c)
     {
         savedPos = transform.position;
@@ -73,6 +74,8 @@ public class scrBaseball : MonoBehaviour {
         correct = c;
     }
 
+    //puts this baseball back in the spot where you scored it
+    //also tells you if you got this baseball right or wrong
     public void displayData()
     {
         transform.position = savedPos;
@@ -88,6 +91,7 @@ public class scrBaseball : MonoBehaviour {
             checkOrX = (GameObject) Instantiate(Resources.Load("preX"), transform.position, Quaternion.identity);
         }
         checkOrX.GetComponent<scrCheckX>().destroyOnTimer = false;
+        checkOrX.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, .5f);
         gameObject.SetActive(true);
     }
 

@@ -41,11 +41,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPos: {x: -.699999988, y: -.699999988, z: 0}
-  minScale: 0
+  minScale: .300000012
   maxScale: 2
   appearTimeMax: 2
+  waitTimeMax: 1
   maxHSpeed: 1.5
   maxVSpeed: 1
+  rotationInterval: 45
+  numberOfBaseballs: 6
+  correctPoints: 8
+  incorrectPoints: -1
 --- !u!212 &21273556
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -90,6 +95,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: maxScale
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: minScale
+      value: .300000012
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

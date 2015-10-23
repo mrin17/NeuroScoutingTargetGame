@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Basically tracks the whole game
+//controlls timing, which baseballs to throw, public tweakable vars, and score
 public class scrBaseballController : MonoBehaviour {
 
     public Vector3 startPos = new Vector3(-.7f, -.7f, 0);
@@ -42,6 +44,7 @@ public class scrBaseballController : MonoBehaviour {
         RestartGame();
     }
 
+    //convenient for when i need to do multiple trials
     void RestartGame()
     {
         //I'm adding one here so there's the chance the baseball won't appear
@@ -94,7 +97,9 @@ public class scrBaseballController : MonoBehaviour {
                 //if we did the required number of trials, end the game
                 if (sTrialNum.numTrials == trialsSoFar)
                 {
-                    maxScore = numCorrectBaseballs * correctPoints + numIncorrectBaseballs * incorrectPoints;
+                    maxScore = (numCorrectBaseballs * correctPoints) + (numIncorrectBaseballs * incorrectPoints * -1);
+                    score = ((int) (score * 10)) / 10; //round score to one decimal place
+                    Instantiate(Resources.Load("preScoreDisplay"));
                     //go through all the baseballs and re-enable them by displaying their data
                     foreach (Transform t in transform)
                     {
@@ -129,6 +134,7 @@ public class scrBaseballController : MonoBehaviour {
         int rot = getRandomNonTargetRotation();
         currentBaseball = (GameObject)Instantiate(Resources.Load("preBaseball"), startPos, Quaternion.Euler(new Vector3(0, 0, rot)));
         currentBaseball.transform.SetParent(transform);
+        numIncorrectBaseballs++;
     }
 
     //picks a random rotation that is a multiple of rotationInterval that is not the target
@@ -141,6 +147,7 @@ public class scrBaseballController : MonoBehaviour {
         return rot;
     }
 
+    //used for when the baseball destroys itself, it calls this so we can score it
     public void addDestroyScore()
     {
         if (!pressedSpace)
@@ -184,6 +191,17 @@ public class scrBaseballController : MonoBehaviour {
             }
         }
         currentBaseball.GetComponent<scrBaseball>().saveTransform(correct);
+    }
+
+    //accessors
+    public float getScore()
+    {
+        return score;
+    }
+
+    public float getMaxScore()
+    {
+        return maxScore;
     }
 
 }

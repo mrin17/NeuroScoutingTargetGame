@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//tracks the trial number, this object stays throughout the whole game
 public class scrTrialNum : MonoBehaviour {
 
     public int numTrials = 1;

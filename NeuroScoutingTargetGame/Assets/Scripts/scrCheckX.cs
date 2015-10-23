@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//for the checks and xs displayed when a baseball is scored
 public class scrCheckX : MonoBehaviour {
 
     public bool destroyOnTimer = true;

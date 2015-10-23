@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//just a timer for 2 seconds
 public class scrInitialDisplay : scrCheckX
 {
 
