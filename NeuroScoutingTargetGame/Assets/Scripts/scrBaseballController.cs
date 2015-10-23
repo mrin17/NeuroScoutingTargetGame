@@ -87,7 +87,7 @@ public class scrBaseballController : MonoBehaviour {
                 thrownBaseballs++;
                 pressedSpace = false;
             }
-            else
+            else if (sTrialNum.numTrials != trialsSoFar)
             {
                 //end game
                 trialsSoFar++;
@@ -95,6 +95,11 @@ public class scrBaseballController : MonoBehaviour {
                 if (sTrialNum.numTrials == trialsSoFar)
                 {
                     maxScore = numCorrectBaseballs * correctPoints + numIncorrectBaseballs * incorrectPoints;
+                    //go through all the baseballs and re-enable them by displaying their data
+                    foreach (Transform t in transform)
+                    {
+                        t.gameObject.GetComponent<scrBaseball>().displayData();
+                    }
                 }
                 //otherwise, we go again
                 else

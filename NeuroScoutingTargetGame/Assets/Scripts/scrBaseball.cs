@@ -18,7 +18,10 @@ public class scrBaseball : MonoBehaviour {
 
     Vector3 savedPos = Vector3.zero;
     Quaternion savedRot = Quaternion.identity;
+    Vector3 savedScale = Vector3.zero;
     bool correct = false;
+
+    bool wasThrown = true;
 
     scrBaseballController baseballController;
 
@@ -42,25 +45,50 @@ public class scrBaseball : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //as time goes by, increase the size of the baseball
-        float scaleRatio = (appearTimer / appearTimeMax * (maxScale - minScale)) + minScale;
-        transform.localScale = new Vector3(scaleRatio, scaleRatio, 1);
+        if (wasThrown)
+        {
+            //as time goes by, increase the size of the baseball
+            float scaleRatio = (appearTimer / appearTimeMax * (maxScale - minScale)) + minScale;
+            transform.localScale = new Vector3(scaleRatio, scaleRatio, 1);
 
-        //only have the baseball appear for appearTiemMax seconds, then disable the baseball
-        appearTimer += Time.deltaTime;
-        if (appearTimer > appearTimeMax) {
-            //if you do not hit the correct baseball, you lose score.
-            //if you do not hit the wrong baseball, you gain score.
-            baseballController.addDestroyScore();
-            this.gameObject.SetActive(false);
+            //only have the baseball appear for appearTiemMax seconds, then disable the baseball
+            appearTimer += Time.deltaTime;
+            if (appearTimer > appearTimeMax)
+            {
+                //if you do not hit the correct baseball, you lose score.
+                //if you do not hit the wrong baseball, you gain score.
+                baseballController.addDestroyScore();
+                wasThrown = false;
+                this.gameObject.SetActive(false);
+            }
         }
+        
 	}
 
     public void saveTransform(bool c)
     {
         savedPos = transform.position;
         savedRot = transform.rotation;
+        savedScale = transform.localScale;
         correct = c;
+    }
+
+    public void displayData()
+    {
+        transform.position = savedPos;
+        transform.rotation = savedRot;
+        transform.localScale = savedScale;
+        GameObject checkOrX;
+        if (correct)
+        {
+            checkOrX = (GameObject) Instantiate(Resources.Load("preCheck"), transform.position, Quaternion.identity);
+        }
+        else
+        {
+            checkOrX = (GameObject) Instantiate(Resources.Load("preX"), transform.position, Quaternion.identity);
+        }
+        checkOrX.GetComponent<scrCheckX>().destroyOnTimer = false;
+        gameObject.SetActive(true);
     }
 
 }
